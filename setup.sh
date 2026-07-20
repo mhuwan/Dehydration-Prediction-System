@@ -1,13 +1,26 @@
 #!/bin/bash
-# สร้างไฟล์ config ของ Streamlit
-mkdir -p .streamlit
-echo "[server]" > .streamlit/config.toml
-echo "headless = true" >> .streamlit/config.toml
-echo "port = \$PORT" >> .streamlit/config.toml
 
-# สร้างไฟล์ kaggle.json จาก Environment Variables (สำหรับ Deploy)
+# สร้างโฟลเดอร์ที่จำเป็น
+mkdir -p .streamlit
+mkdir -p ~/.kaggle
+mkdir -p data
+
+# ตั้งค่า Streamlit config
+cat > .streamlit/config.toml <<EOF
+[server]
+headless = true
+port = $PORT
+enableCORS = false
+
+[browser]
+gatherUsageStats = false
+EOF
+
+# สร้างไฟล์ kaggle.json จาก Environment Variables
 if [ -n "$KAGGLE_USERNAME" ] && [ -n "$KAGGLE_KEY" ]; then
-    mkdir -p ~/.kaggle
     echo "{\"username\":\"$KAGGLE_USERNAME\",\"key\":\"$KAGGLE_KEY\"}" > ~/.kaggle/kaggle.json
     chmod 600 ~/.kaggle/kaggle.json
+    echo "✅ Kaggle credentials configured"
+else
+    echo "⚠️ Kaggle credentials not found, will use synthetic data"
 fi
