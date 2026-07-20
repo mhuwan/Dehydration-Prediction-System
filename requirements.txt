@@ -1,12 +1,11 @@
-numpy==1.26.4
-pandas==2.2.3
+numpy<2.0.0
+pandas
 matplotlib
 seaborn
 streamlit
-plotly==5.9.0
+plotly>=5.22.0
 openpyxl
 scikit-learn
 streamlit-lottie
 kaggle
 requests
-joblib

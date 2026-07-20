@@ -7,51 +7,24 @@ st.markdown("# 📊 วิเคราะห์และสำรวจข้อ
 
 df = load_kaggle_data()
 
-# แสดงข้อมูลดิบ
 with st.expander("🔍 ดูข้อมูลดิบ (Raw Data)"):
     st.dataframe(df.head(50), use_container_width=True)
-    st.write(f"**จำนวนข้อมูลทั้งหมด:** {len(df)} rows × {len(df.columns)} columns")
 
 col1, col2 = st.columns(2)
-
 with col1:
-    st.markdown("### 🥧 สัดส่วนภาวะขาดน้ำ")
-    fig_pie = px.pie(
-        df, names='dehydration_status',
-        title='สถานะภาวะขาดน้ำ',
-        color='dehydration_status',
-        color_discrete_map={0:'#8ec5fc', 1:'#f093fb'},
-        hole=0.4
-    )
+    fig_pie = px.pie(df, names='dehydration_status', title='สัดส่วนภาวะขาดน้ำ', color='dehydration_status', color_discrete_map={0:'#8ec5fc', 1:'#f093fb'}, hole=0.4)
     st.plotly_chart(fig_pie, use_container_width=True)
 
 with col2:
-    st.markdown("### 🎂 การกระจายของอายุ")
-    fig_hist = px.histogram(
-        df, x='age', color='dehydration_status', nbins=30,
-        title='การกระจายของอายุ',
-        color_discrete_map={0:'#8ec5fc', 1:'#f093fb'},
-        barmode='overlay'
-    )
+    fig_hist = px.histogram(df, x='age', color='dehydration_status', nbins=30, title='การกระจายของอายุ', color_discrete_map={0:'#8ec5fc', 1:'#f093fb'}, barmode='overlay')
     st.plotly_chart(fig_hist, use_container_width=True)
 
 st.markdown("### 🌡️ Correlation Heatmap")
 numeric_df = df.select_dtypes(include=['number'])
-fig_corr = px.imshow(
-    numeric_df.corr(), text_auto=".2f",
-    color_continuous_scale='RdBu_r', aspect="auto"
-)
+fig_corr = px.imshow(numeric_df.corr(), text_auto=".2f", color_continuous_scale='RdBu_r', aspect="auto")
 st.plotly_chart(fig_corr, use_container_width=True)
 
-st.markdown("### 📦 Boxplot: ปริมาณน้ำที่ดื่ม vs ภาวะขาดน้ำ")
 if 'water_intake' in df.columns:
-    fig_box = px.box(
-        df, x='dehydration_status', y='water_intake',
-        color='dehydration_status',
-        title='เปรียบเทียบปริมาณน้ำที่ดื่ม',
-        color_discrete_map={0:'#8ec5fc', 1:'#f093fb'}
-    )
+    st.markdown("### 📦 Boxplot: ปริมาณน้ำที่ดื่ม vs ภาวะขาดน้ำ")
+    fig_box = px.box(df, x='dehydration_status', y='water_intake', color='dehydration_status', title='เปรียบเทียบปริมาณน้ำที่ดื่ม', color_discrete_map={0:'#8ec5fc', 1:'#f093fb'})
     st.plotly_chart(fig_box, use_container_width=True)
-
-st.markdown("### 📊 สถิติเชิงพรรณนา")
-st.dataframe(df.describe().transpose(), use_container_width=True)

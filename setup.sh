@@ -9,18 +9,18 @@ mkdir -p data
 cat > .streamlit/config.toml <<EOF
 [server]
 headless = true
-port = $PORT
+port = \$PORT
 enableCORS = false
 
 [browser]
 gatherUsageStats = false
 EOF
 
-# สร้างไฟล์ kaggle.json จาก Environment Variables
-if [ -n "$KAGGLE_USERNAME" ] && [ -n "$KAGGLE_KEY" ]; then
-    echo "{\"username\":\"$KAGGLE_USERNAME\",\"key\":\"$KAGGLE_KEY\"}" > ~/.kaggle/kaggle.json
+# สร้างไฟล์ kaggle.json จาก Environment Variables (ถ้ามี)
+if [ -n "\$KAGGLE_USERNAME" ] && [ -n "\$KAGGLE_KEY" ]; then
+    echo "{\"username\":\"\$KAGGLE_USERNAME\",\"key\":\"\$KAGGLE_KEY\"}" > ~/.kaggle/kaggle.json
     chmod 600 ~/.kaggle/kaggle.json
     echo "✅ Kaggle credentials configured"
 else
-    echo "⚠️ Kaggle credentials not found, will use synthetic data"
+    echo "⚠️ Kaggle credentials not found, will use synthetic data fallback"
 fi
