@@ -1,5 +1,5 @@
-numpy
-pandas
+numpy==1.26.4
+pandas==2.2.3
 matplotlib
 seaborn
 streamlit
@@ -9,3 +9,4 @@ scikit-learn
 streamlit-lottie
 kaggle
 requests
+joblib

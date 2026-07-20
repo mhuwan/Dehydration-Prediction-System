@@ -58,6 +58,7 @@ p, h1, h2, h3, h4, h5, h6, label, span, div {
     box-shadow: 0 8px 32px rgba(31, 38, 135, 0.07);
     border: 1px solid rgba(255, 255, 255, 0.8);
     transition: all 0.3s ease;
+    margin-bottom: 16px;
 }
 
 .card:hover {
